@@ -1,0 +1,24 @@
+{
+  "name": "watch-store",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/validate-content.mjs && node scripts/check-budget.mjs",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "4.16.18",
+    "@astrojs/sitemap": "3.2.1",
+    "@sanity/client": "6.24.3",
+    "@sanity/image-url": "1.1.0"
+  },
+  "devDependencies": {
+    "typescript": "5.7.2"
+  }
+}

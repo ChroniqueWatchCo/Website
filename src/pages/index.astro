@@ -1,0 +1,202 @@
+---
+/** Home page (Section 8.4). */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductGrid from '../components/ProductGrid.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import BrandTiles from '../components/BrandTiles.astro';
+import TypeBadge from '../components/TypeBadge.astro';
+import Price from '../components/Price.astro';
+import {
+  getBrandsByType, getFeatured, getNewArrivals, getProductsByType, getPolicies,
+  getSettings, absoluteUrl,
+} from '../lib/data';
+import { ogImage as buildOg } from '../lib/images';
+
+const settings = await getSettings();
+const policies = await getPolicies();
+
+const [originals, replicas, origBrands, repBrands, featOrig, featRep, arrivals] = await Promise.all([
+  getProductsByType('original'),
+  getProductsByType('replica'),
+  getBrandsByType('original'),
+  getBrandsByType('replica'),
+  getFeatured('original'),
+  getFeatured('replica'),
+  getNewArrivals(8),
+]);
+
+const heroDesktop = settings.heroImage;
+const heroMobile = settings.heroImageMobile ?? heroDesktop;
+const heroImgAttrs = heroDesktop
+  ? { src: heroDesktop.local ?? '', width: heroDesktop.width || 1600, height: heroDesktop.height || 900 }
+  : null;
+
+const pageOg = settings.ogImage ? buildOg(settings.ogImage) : null;
+const canonical = absoluteUrl(Astro.site, '/');
+
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: settings.storeName,
+  url: canonical,
+};
+const webSiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: settings.storeName,
+  url: canonical,
+};
+---
+<BaseLayout
+  settings={settings}
+  policies={policies}
+  title={`${settings.seoTitle ?? `${settings.storeName} — Original & Replica Watches`}`}
+  description={settings.seoDescription ?? 'Browse original and clearly-labelled replica watches. Order on WhatsApp.'}
+  ogImage={pageOg}
+  jsonLd={[orgJsonLd, webSiteJsonLd]}
+  path="/"
+>
+  {/* 1. Hero */}
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <h1>{settings.heroHeadline ?? 'Timepieces worth talking about'}</h1>
+        <p class="muted hero__sub">{settings.heroSubline ?? 'Browse original and replica watches, then order in one tap on WhatsApp.'}</p>
+        <p class="hero__cta">
+          <a class="btn btn-gold" href="/original/" data-astro-prefetch="tap">Shop Original</a>
+          <a class="btn btn-outline" href="/replica/" data-astro-prefetch="tap">Shop Replica</a>
+        </p>
+      </div>
+      {heroImgAttrs && (
+        <picture>
+          {settings.heroImageMobile && settings.heroImageMobile.local !== heroDesktop?.local && (
+            <source media="(max-width: 767px)" srcset={settings.heroImageMobile.local} />
+          )}
+          <img
+            src={heroImgAttrs.src}
+            width={heroImgAttrs.width}
+            height={heroImgAttrs.height}
+            alt=""
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            class="hero__img"
+          />
+        </picture>
+      )}
+    </div>
+  </section>
+
+  <div class="container">
+    {/* 2. Category tiles */}
+    <section class="section below-fold" aria-labelledby="cats-h">
+      <h2 id="cats-h" class="sr-only">Categories</h2>
+      <ul class="cats">
+        <li>
+          <a href="/original/" data-astro-prefetch="tap" class="cat">
+            <TypeBadge type="original" size="md" />
+            <span class="cat__title">Original watches</span>
+            <span class="muted">{originals.length} {originals.length === 1 ? 'watch' : 'watches'}</span>
+          </a>
+        </li>
+        <li>
+          <a href="/replica/" data-astro-prefetch="tap" class="cat">
+            <TypeBadge type="replica" size="md" />
+            <span class="cat__title">Replica watches</span>
+            <span class="muted">{replicas.length} {replicas.length === 1 ? 'watch' : 'watches'}</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    {/* 3. Trust strip */}
+    <section class="below-fold" aria-label="Why shop here">
+      <TrustStrip items={settings.trustItems} />
+    </section>
+
+    {/* 4. Brand tiles, split by type */}
+    <section class="section below-fold" aria-labelledby="brands-h">
+      <h2 id="brands-h">Shop by brand</h2>
+      <p class="eyebrow">Original</p>
+      <BrandTiles brands={origBrands} type="original" />
+      <p class="eyebrow" style="margin-top: var(--s-5);">Replica</p>
+      <BrandTiles brands={repBrands} type="replica" />
+    </section>
+
+    {/* 5. Best sellers per type */}
+    {featOrig.length > 0 && (
+      <section class="section below-fold" aria-labelledby="bs-o">
+        <h2 id="bs-o">Best sellers — <span class="hl">Original</span></h2>
+        <ProductGrid products={featOrig} currencyLabel={settings.currencyLabel} eagerCount={0} />
+      </section>
+    )}
+    {featRep.length > 0 && (
+      <section class="section below-fold" aria-labelledby="bs-r">
+        <h2 id="bs-r">Best sellers — <span class="hl">Replica</span></h2>
+        <ProductGrid products={featRep} currencyLabel={settings.currencyLabel} />
+      </section>
+    )}
+
+    {/* 6. New arrivals */}
+    <section class="section below-fold" aria-labelledby="na">
+      <h2 id="na">New arrivals</h2>
+      <ProductGrid products={arrivals} currencyLabel={settings.currencyLabel} />
+    </section>
+
+    {/* 7. How ordering works */}
+    <section class="section below-fold" aria-labelledby="how">
+      <h2 id="how">How ordering works</h2>
+      <ol class="steps">
+        <li><strong>Pick a watch.</strong> Every listing shows whether it is Original or Replica.</li>
+        <li><strong>Tap “Order on WhatsApp.”</strong> Your message opens with the watch, type and price already filled in.</li>
+        <li><strong>Confirm details with the shop.</strong> {settings.paymentTerms ?? 'Payment and delivery terms are confirmed in chat.'}</li>
+      </ol>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .hero__inner {
+    display: grid;
+    gap: var(--s-5);
+    padding-block: var(--s-7);
+  }
+  @media (min-width: 900px) {
+    .hero__inner { grid-template-columns: 1fr 1fr; align-items: center; }
+  }
+  .hero h1 { margin-bottom: var(--s-3); }
+  .hero__sub { max-width: 46ch; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: var(--s-3); margin: var(--s-5) 0 0; }
+  .hero__img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border);
+  }
+
+  .cats { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-3); }
+  @media (min-width: 640px) { .cats { grid-template-columns: 1fr 1fr; } }
+  .cat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    padding: var(--s-5);
+    min-height: 140px;
+    justify-content: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    color: var(--text);
+  }
+  .cat:hover { border-color: var(--gold); }
+  .cat__title { font-family: Georgia, serif; font-size: 1.3rem; }
+
+  .hl { color: var(--gold); }
+
+  .steps { padding-inline-start: 1.4em; }
+  .steps li { margin-block: var(--s-3); color: var(--silver); }
+  .steps strong { color: var(--text); }
+</style>

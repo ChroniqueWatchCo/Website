@@ -1,0 +1,43 @@
+---
+/** SEO component (Section 16): title, canonical, OG/Twitter, JSON-LD. */
+import type { ProductImage } from '../lib/types';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;      // absolute clean URL
+  ogImage?: string | null;
+  ogType?: 'website' | 'product';
+  jsonLd?: object | object[];
+  storeName?: string;
+}
+const {
+  title,
+  description,
+  canonical,
+  ogImage = null,
+  ogType = 'website',
+  jsonLd,
+  storeName,
+} = Astro.props;
+
+const siteTitle = title;
+---
+<title>{siteTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+{storeName && <meta property="og:site_name" content={storeName} />}
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonical} />
+{ogImage && <meta property="og:image" content={ogImage} />}
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{ogImage && <meta name="twitter:image" content={ogImage} />}
+
+{jsonLd && (
+  <script type="application/ld+json" set:html={JSON.stringify(Array.isArray(jsonLd) ? jsonLd : [jsonLd])} />
+)}

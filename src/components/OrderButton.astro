@@ -1,0 +1,64 @@
+---
+/**
+ * Order on WhatsApp button (Section 9). Rendered as a plain <a href> built at
+ * build time — works with JS disabled. Sold out => disabled state + fallback link.
+ */
+import type { Product, SiteSettings } from '../lib/types';
+import { buildGenericWhatsAppLink, buildWhatsAppLink } from '../lib/whatsapp';
+
+interface Props {
+  settings: SiteSettings;
+  product?: Product;
+  url?: string;         // absolute product URL for the pre-filled message
+  large?: boolean;
+  variant?: 'block' | 'inline';
+}
+const { settings, product, url = '', large = false, variant = 'block' } = Astro.props;
+
+const waIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2zm0 2a8 8 0 1 1-4.2 14.8l-.4-.3-2.9.8.8-2.8-.2-.4A8 8 0 0 1 12 4zm-3.2 4.4c-.2 0-.5.1-.7.4-.3.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5 0 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.6-.3c-.3-.2-1.5-.8-1.8-.9-.2 0-.4-.1-.6.1-.2.3-.6.9-.8 1 0 .2-.2.2-.4.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.8-.2-.3 0-.4.1-.5l.4-.5c.2-.2.2-.3.4-.5V10c0-.2-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5z"/></svg>`;
+
+if (!product) {
+  const link = buildGenericWhatsAppLink(settings.whatsappNumber, settings.storeName);
+  %>
+  <a class:list={['btn', 'btn-gold', { large: large, block: variant === 'block' }]} href={link} rel="noopener noreferrer">
+    <Fragment set:html={waIcon} /> Chat on WhatsApp
+  </a>
+  <%
+} else if (!product.inStock) {
+  const askLink = buildGenericWhatsAppLink(
+    settings.whatsappNumber,
+    settings.storeName,
+    `Hi ${settings.storeName}, the "${product.name}" is sold out. Can you suggest a similar watch?`
+  );
+  %>
+  <span class:list={['btn', 'btn-disabled', { large: large, block: variant === 'block' }]} aria-disabled="true">Sold out</span>
+  <a class="ask muted" href={askLink} rel="noopener noreferrer">Ask about similar watches</a>
+  <%
+} else {
+  const link = buildWhatsAppLink({
+    phone: settings.whatsappNumber,
+    storeName: settings.storeName,
+    productName: product.name,
+    type: product.type,
+    price: product.price,
+    currencyLabel: settings.currencyLabel,
+    url,
+  });
+  %>
+  <a class:list={['btn', 'btn-gold', { large: large, block: variant === 'block' }]} href={link} rel="noopener noreferrer">
+    <Fragment set:html={waIcon} /> Order on WhatsApp
+  </a>
+  <%
+}
+---
+
+<style>
+  .large { min-height: 52px; font-size: 1.05rem; }
+  .block { display: flex; width: 100%; }
+  .ask {
+    display: inline-block;
+    margin-top: var(--s-2);
+    font-size: 0.9rem;
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,50 @@
+---
+/** Brand tiles (Section 8.4.4): text/wordmark tiles, no logos, per type. */
+import type { BrandInType } from '../lib/data';
+
+interface Props { brands: BrandInType[]; type: 'original' | 'replica'; }
+const { brands, type } = Astro.props;
+---
+{brands.length > 0 && (
+  <ul class="tiles">
+    {brands.map((b) => (
+      <li>
+        <a href={`/${type}/${b.brand.slug}/`} data-astro-prefetch="tap" class="tile">
+          <span class="tile__name">{b.brand.name}</span>
+          <span class="tile__count muted">{b.count} {b.count === 1 ? 'watch' : 'watches'}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+)}
+
+<style>
+  .tiles {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-3);
+  }
+  @media (min-width: 768px) { .tiles { grid-template-columns: repeat(4, 1fr); } }
+  .tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 72px;
+    padding: var(--s-3) var(--s-4);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    color: var(--text);
+  }
+  .tile:hover { border-color: var(--gold); }
+  .tile__name {
+    font-family: Georgia, "Times New Roman", serif;
+    letter-spacing: 0.05em;
+    font-size: 1rem;
+  }
+  .tile__count { font-size: 0.8rem; }
+</style>

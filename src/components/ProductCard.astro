@@ -1,0 +1,118 @@
+---
+/** Product card (Section 8.6). Entire card is one link; no hover zoom, no shadows. */
+import type { Product } from '../lib/types';
+import { cardImage } from '../lib/images';
+import TypeBadge from './TypeBadge.astro';
+import Price from './Price.astro';
+
+interface Props {
+  product: Product;
+  currencyLabel?: string;
+  eager?: boolean; // first row above the fold may be eager
+}
+const { product, currencyLabel = 'Rs.', eager = false } = Astro.props;
+const img = product.images[0];
+const attrs = img ? cardImage(img) : null;
+const href = `/watch/${product.slug}/`;
+---
+<li class="card" data-card
+  data-type={product.type}
+  data-gender={product.gender}
+  data-movement={product.movement}
+  data-chronograph={product.chronograph ? 'true' : 'false'}
+  data-condition={product.condition}
+  data-stock={product.inStock ? 'in' : 'out'}
+  data-price={product.price}
+  data-created={product.createdAt}>
+  <a href={href} data-astro-prefetch="tap" class="card__link">
+    <span class="card__media">
+      {attrs && (
+        <img
+          src={attrs.src}
+          srcset={attrs.srcset}
+          sizes={attrs.sizes}
+          width={attrs.width}
+          height={attrs.height}
+          alt={attrs.alt}
+          loading={eager ? 'eager' : 'lazy'}
+          decoding="async"
+          fetchpriority={eager ? 'high' : undefined}
+          class:list={{ 'card__img--sold': !product.inStock }}
+        />
+      )}
+      <TypeBadge type={product.type} />
+      {!product.inStock && <span class="ribbon">SOLD OUT</span>}
+    </span>
+    <span class="card__body">
+      <span class="card__brand">{product.brand?.name ?? ''}</span>
+      <span class="card__name">{product.name}</span>
+      <Price price={product.price} oldPrice={product.oldPrice} currencyLabel={currencyLabel} />
+    </span>
+  </a>
+</li>
+
+<style>
+  .card { list-style: none; contain: layout paint; }
+  .card__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    height: 100%;
+  }
+  .card__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1;
+    background: var(--surface-2);
+  }
+  .card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card__media :global(.badge) {
+    position: absolute;
+    top: var(--s-2);
+    left: var(--s-2);
+  }
+  .card__img--sold { opacity: 0.55; } /* dim with opacity only (8.6) */
+  .ribbon {
+    position: absolute;
+    bottom: var(--s-2);
+    left: var(--s-2);
+    background: var(--surface);
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .card__body {
+    display: block;
+    padding: var(--s-3);
+  }
+  .card__brand {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--silver-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .card__name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.92rem;
+    line-height: 1.35;
+    margin-bottom: var(--s-2);
+    min-height: calc(2 * 1.35em);
+  }
+</style>
