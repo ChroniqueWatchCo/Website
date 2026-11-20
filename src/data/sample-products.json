@@ -1,49 +1,93 @@
 [
   {
     "id": "sample-01",
-    "name": "Sample Watch 01 — Automatic Silver Dial",
-    "slug": "sample-watch-01",
+    "name": "Casio MTP-V006D-7B — White Roman Dial, Day-Date",
+    "slug": "casio-mtp-v006d-7b",
     "type": "original",
-    "brand": { "name": "Sample Brand Alpha", "slug": "sample-brand-alpha" },
+    "brand": {
+      "name": "Casio",
+      "slug": "casio"
+    },
     "gender": "men",
-    "movement": "automatic",
+    "movement": "quartz",
     "chronograph": false,
     "condition": "new",
     "price": 132850,
     "oldPrice": 149000,
     "images": [
-      { "local": "/placeholders/watch-a.svg", "alt": "Sample Watch 01 front view, silver dial on dark background" },
-      { "local": "/placeholders/watch-b.svg", "alt": "Sample Watch 01 side view showing crown" }
+      {
+        "local": "/img/casio-mtp-v006d-7b.jpg",
+        "alt": "Casio MTP-V006D-7B with white Roman numeral dial, day-date window and stainless steel bracelet"
+      }
     ],
-    "shortDescription": "SAMPLE DATA ONLY — this is not a real listing. Replace with the shop's own product and photo.",
+    "shortDescription": "Classic Casio dress watch with a white Roman numeral dial, day-date display and stainless steel bracelet. Preview listing — price and details to be confirmed.",
     "specs": [
-      { "label": "Movement", "value": "Automatic (sample)" },
-      { "label": "Case size", "value": "40 mm (sample)" },
-      { "label": "Water resistance", "value": "REPLACE_ME" }
+      {
+        "label": "Movement",
+        "value": "Quartz"
+      },
+      {
+        "label": "Dial",
+        "value": "White, Roman numerals"
+      },
+      {
+        "label": "Display",
+        "value": "Day & date"
+      },
+      {
+        "label": "Bracelet",
+        "value": "Stainless steel"
+      }
     ],
-    "accessories": ["Sample box", "Sample papers"],
+    "accessories": [
+      "Box"
+    ],
     "inStock": true,
     "featured": true,
     "createdAt": "2026-11-01T10:00:00Z"
   },
   {
     "id": "sample-02",
-    "name": "Sample Watch 02 — Chronograph Black Dial",
-    "slug": "sample-watch-02",
+    "name": "Casio MTP-B190-1A — Black Rectangular Roman Dial",
+    "slug": "casio-mtp-b190-1a",
     "type": "original",
-    "brand": { "name": "Sample Brand Alpha", "slug": "sample-brand-alpha" },
+    "brand": {
+      "name": "Casio",
+      "slug": "casio"
+    },
     "gender": "men",
     "movement": "quartz",
-    "chronograph": true,
+    "chronograph": false,
     "condition": "new",
     "price": 89500,
     "images": [
-      { "local": "/placeholders/watch-b.svg", "alt": "Sample Watch 02 front view, black chronograph dial" },
-      { "local": "/placeholders/watch-c.svg", "alt": "Sample Watch 02 caseback view" }
+      {
+        "local": "/img/casio-mtp-b190-1a.jpg",
+        "alt": "Casio MTP-B190-1A with rectangular black Roman numeral dial and stainless steel bracelet"
+      }
     ],
-    "shortDescription": "SAMPLE DATA ONLY — this is not a real listing.",
-    "specs": [{ "label": "Movement", "value": "Quartz chronograph (sample)" }],
-    "accessories": ["Sample box"],
+    "shortDescription": "Rectangular Casio dress watch with a black Roman numeral dial and stainless steel bracelet. Preview listing — price and details to be confirmed.",
+    "specs": [
+      {
+        "label": "Movement",
+        "value": "Quartz"
+      },
+      {
+        "label": "Dial",
+        "value": "Black, Roman numerals"
+      },
+      {
+        "label": "Water resistance",
+        "value": "50 m"
+      },
+      {
+        "label": "Bracelet",
+        "value": "Stainless steel"
+      }
+    ],
+    "accessories": [
+      "Box"
+    ],
     "inStock": true,
     "featured": true,
     "createdAt": "2026-11-02T10:00:00Z"
@@ -53,14 +97,22 @@
     "name": "Sample Watch 03 — Pre-owned Gold Tone",
     "slug": "sample-watch-03-preowned",
     "type": "original",
-    "brand": { "name": "Sample Brand Beta", "slug": "sample-brand-beta" },
+    "brand": {
+      "name": "Sample Brand Beta",
+      "slug": "sample-brand-beta"
+    },
     "gender": "unisex",
     "movement": "automatic",
     "chronograph": false,
     "condition": "pre-owned",
     "price": 76000,
     "oldPrice": 95000,
-    "images": [{ "local": "/placeholders/watch-c.svg", "alt": "Sample Watch 03 front view, gold tone dial" }],
+    "images": [
+      {
+        "local": "/placeholders/watch-c.svg",
+        "alt": "Sample Watch 03 front view, gold tone dial"
+      }
+    ],
     "shortDescription": "SAMPLE DATA ONLY — this is not a real listing.",
     "specs": [],
     "accessories": [],
@@ -73,16 +125,31 @@
     "name": "Sample Watch 04 — Ladies Quartz White",
     "slug": "sample-watch-04-ladies",
     "type": "original",
-    "brand": { "name": "Sample Brand Beta", "slug": "sample-brand-beta" },
+    "brand": {
+      "name": "Sample Brand Beta",
+      "slug": "sample-brand-beta"
+    },
     "gender": "women",
     "movement": "quartz",
     "chronograph": false,
     "condition": "new",
     "price": 42500,
-    "images": [{ "local": "/placeholders/watch-d.svg", "alt": "Sample Watch 04 front view, white ladies dial" }],
+    "images": [
+      {
+        "local": "/placeholders/watch-d.svg",
+        "alt": "Sample Watch 04 front view, white ladies dial"
+      }
+    ],
     "shortDescription": "SAMPLE DATA ONLY — this is not a real listing.",
-    "specs": [{ "label": "Case size", "value": "32 mm (sample)" }],
-    "accessories": ["Sample box"],
+    "specs": [
+      {
+        "label": "Case size",
+        "value": "32 mm (sample)"
+      }
+    ],
+    "accessories": [
+      "Sample box"
+    ],
     "inStock": true,
     "featured": true,
     "createdAt": "2026-11-03T10:00:00Z"
@@ -92,7 +159,10 @@
     "name": "Sample Replica 01 — Diver Style Blue Dial",
     "slug": "sample-replica-01-diver",
     "type": "replica",
-    "brand": { "name": "Sample Brand Gamma", "slug": "sample-brand-gamma" },
+    "brand": {
+      "name": "Sample Brand Gamma",
+      "slug": "sample-brand-gamma"
+    },
     "gender": "men",
     "movement": "automatic",
     "chronograph": false,
@@ -100,12 +170,29 @@
     "price": 18500,
     "oldPrice": 22000,
     "images": [
-      { "local": "/placeholders/watch-a.svg", "alt": "Sample Replica 01 front view, blue diver dial" },
-      { "local": "/placeholders/watch-d.svg", "alt": "Sample Replica 01 on-wrist view" }
+      {
+        "local": "/placeholders/watch-a.svg",
+        "alt": "Sample Replica 01 front view, blue diver dial"
+      },
+      {
+        "local": "/placeholders/watch-d.svg",
+        "alt": "Sample Replica 01 on-wrist view"
+      }
     ],
     "shortDescription": "SAMPLE DATA ONLY — replica example. Not made or endorsed by any brand.",
-    "specs": [{ "label": "Movement", "value": "Automatic (sample)" }, { "label": "Case size", "value": "41 mm (sample)" }],
-    "accessories": ["Sample box"],
+    "specs": [
+      {
+        "label": "Movement",
+        "value": "Automatic (sample)"
+      },
+      {
+        "label": "Case size",
+        "value": "41 mm (sample)"
+      }
+    ],
+    "accessories": [
+      "Sample box"
+    ],
     "inStock": true,
     "featured": true,
     "createdAt": "2026-11-04T10:00:00Z"
@@ -115,13 +202,21 @@
     "name": "Sample Replica 02 — Dress Watch Slim",
     "slug": "sample-replica-02-dress",
     "type": "replica",
-    "brand": { "name": "Sample Brand Gamma", "slug": "sample-brand-gamma" },
+    "brand": {
+      "name": "Sample Brand Gamma",
+      "slug": "sample-brand-gamma"
+    },
     "gender": "unisex",
     "movement": "quartz",
     "chronograph": false,
     "condition": "new",
     "price": 9900,
-    "images": [{ "local": "/placeholders/watch-b.svg", "alt": "Sample Replica 02 front view, slim dress watch" }],
+    "images": [
+      {
+        "local": "/placeholders/watch-b.svg",
+        "alt": "Sample Replica 02 front view, slim dress watch"
+      }
+    ],
     "shortDescription": "SAMPLE DATA ONLY — replica example. Not made or endorsed by any brand.",
     "specs": [],
     "accessories": [],
@@ -134,16 +229,32 @@
     "name": "Sample Replica 03 — Chronograph Panda Dial",
     "slug": "sample-replica-03-panda",
     "type": "replica",
-    "brand": { "name": "Sample Brand Delta", "slug": "sample-brand-delta" },
+    "brand": {
+      "name": "Sample Brand Delta",
+      "slug": "sample-brand-delta"
+    },
     "gender": "men",
     "movement": "quartz",
     "chronograph": true,
     "condition": "new",
     "price": 14750,
-    "images": [{ "local": "/placeholders/watch-c.svg", "alt": "Sample Replica 03 front view, panda chronograph dial" }],
+    "images": [
+      {
+        "local": "/placeholders/watch-c.svg",
+        "alt": "Sample Replica 03 front view, panda chronograph dial"
+      }
+    ],
     "shortDescription": "SAMPLE DATA ONLY — replica example. Not made or endorsed by any brand.",
-    "specs": [{ "label": "Chronograph", "value": "Yes (sample)" }],
-    "accessories": ["Sample box", "Sample links"],
+    "specs": [
+      {
+        "label": "Chronograph",
+        "value": "Yes (sample)"
+      }
+    ],
+    "accessories": [
+      "Sample box",
+      "Sample links"
+    ],
     "inStock": false,
     "featured": true,
     "createdAt": "2026-11-05T10:00:00Z"
@@ -153,17 +264,27 @@
     "name": "Sample Replica 04 — Ladies Two-Tone",
     "slug": "sample-replica-04-ladies",
     "type": "replica",
-    "brand": { "name": "Sample Brand Delta", "slug": "sample-brand-delta" },
+    "brand": {
+      "name": "Sample Brand Delta",
+      "slug": "sample-brand-delta"
+    },
     "gender": "women",
     "movement": "quartz",
     "chronograph": false,
     "condition": "new",
     "price": 8200,
     "oldPrice": 10000,
-    "images": [{ "local": "/placeholders/watch-d.svg", "alt": "Sample Replica 04 front view, two-tone ladies watch" }],
+    "images": [
+      {
+        "local": "/placeholders/watch-d.svg",
+        "alt": "Sample Replica 04 front view, two-tone ladies watch"
+      }
+    ],
     "shortDescription": "SAMPLE DATA ONLY — replica example. Not made or endorsed by any brand.",
     "specs": [],
-    "accessories": ["Sample box"],
+    "accessories": [
+      "Sample box"
+    ],
     "inStock": true,
     "featured": true,
     "createdAt": "2026-11-06T10:00:00Z"
