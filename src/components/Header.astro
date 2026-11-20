@@ -2,7 +2,7 @@
 /**
  * Header (Section 8.3). Mobile menu: CSS-only <details> pattern, zero JS.
  * WhatsApp quick-contact link uses the number from Site Settings only.
- * Logo: uses /logo.svg from the repo root's public/ folder when present
+ * Logo: uses /logo.png from the repo root's public/ folder when present
  * (added by the owner); otherwise falls back to a text wordmark.
  */
 import type { SiteSettings } from '../lib/types';
@@ -13,16 +13,16 @@ interface Props { settings: SiteSettings; }
 const { settings } = Astro.props;
 const waLink = buildGenericWhatsAppLink(settings.whatsappNumber, settings.storeName);
 
-// The logo file is optional: place your logo at public/logo.svg (or change the
+// The logo file is optional: place your logo at public/logo.png (or change the
 // path below) and it will appear in the header + footer automatically.
-const LOGO_SRC = '/logo.svg';
+const LOGO_SRC = '/logo.png';
 const hasLogoFile = existsSync(new URL(`../../public${LOGO_SRC}`, import.meta.url));
 ---
 <header class="site-header">
   <div class="container header__row">
     <a href="/" class="logo" data-astro-prefetch="tap" aria-label={`${settings.storeName} — home`}>
       {hasLogoFile ? (
-        <img src={LOGO_SRC} alt={settings.storeName} width="120" height="40" class="logo__img" loading="eager" decoding="async" />
+        <img src={LOGO_SRC} alt={settings.storeName} width="164" height="40" class="logo__img" loading="eager" decoding="async" />
       ) : (
         <span>{settings.storeName}</span>
       )}

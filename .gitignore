@@ -21,3 +21,6 @@ studio/.env.*
 .DS_Store
 *.log
 npm-debug.log*
+
+# Local Netlify folder
+.netlify

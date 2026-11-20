@@ -8,8 +8,8 @@ interface Props { settings: SiteSettings; policies: PolicyPage[]; }
 const { settings, policies } = Astro.props;
 const waLink = buildGenericWhatsAppLink(settings.whatsappNumber, settings.storeName);
 
-// Same optional logo as the header (public/logo.svg).
-const LOGO_SRC = '/logo.svg';
+// Same optional logo as the header (public/logo.png).
+const LOGO_SRC = '/logo.png';
 const hasLogoFile = existsSync(new URL(`../../public${LOGO_SRC}`, import.meta.url));
 
 const group = (cat: PolicyPage['category']) =>
@@ -26,7 +26,7 @@ const socials = [
   <div class="container footer__grid">
     <div>
       {hasLogoFile ? (
-        <img src={LOGO_SRC} alt={settings.storeName} width="140" height="46" class="footer__logo-img" loading="lazy" decoding="async" />
+        <img src={LOGO_SRC} alt={settings.storeName} width="189" height="46" class="footer__logo-img" loading="lazy" decoding="async" />
       ) : (
         <p class="footer__logo">{settings.storeName}</p>
       )}
