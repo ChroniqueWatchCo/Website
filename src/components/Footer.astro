@@ -2,10 +2,15 @@
 /** Footer (Section 8.11): policy links grouped General / Original / Replica, contact, socials. */
 import type { PolicyPage, SiteSettings } from '../lib/types';
 import { buildGenericWhatsAppLink } from '../lib/whatsapp';
+import { existsSync } from 'node:fs';
 
 interface Props { settings: SiteSettings; policies: PolicyPage[]; }
 const { settings, policies } = Astro.props;
 const waLink = buildGenericWhatsAppLink(settings.whatsappNumber, settings.storeName);
+
+// Same optional logo as the header (public/logo.svg).
+const LOGO_SRC = '/logo.svg';
+const hasLogoFile = existsSync(new URL(`../../public${LOGO_SRC}`, import.meta.url));
 
 const group = (cat: PolicyPage['category']) =>
   policies.filter((p) => p.category === cat).sort((a, b) => (a.sortOrder ?? 99) - (b.sortOrder ?? 99));
@@ -20,7 +25,11 @@ const socials = [
 <footer class="site-footer">
   <div class="container footer__grid">
     <div>
-      <p class="footer__logo">{settings.storeName}</p>
+      {hasLogoFile ? (
+        <img src={LOGO_SRC} alt={settings.storeName} width="140" height="46" class="footer__logo-img" loading="lazy" decoding="async" />
+      ) : (
+        <p class="footer__logo">{settings.storeName}</p>
+      )}
       {settings.tagline && <p class="muted footer__tagline">{settings.tagline}</p>}
       <p><a href={waLink} rel="noopener noreferrer">Chat on WhatsApp</a></p>
       <ul class="footer__contact">
@@ -88,6 +97,7 @@ const socials = [
     font-size: 1.2rem;
     letter-spacing: 0.05em;
   }
+  .footer__logo-img { height: 46px; width: auto; max-width: 200px; display: block; margin-bottom: var(--s-2); }
   .footer__tagline { font-size: 0.9rem; max-width: 34ch; }
   .footer__h {
     font-size: 0.8rem;

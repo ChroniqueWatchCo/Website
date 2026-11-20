@@ -42,7 +42,7 @@ async function loadSampleProducts(): Promise<Product[]> {
 
 function sampleSettings(): SiteSettings {
   return {
-    storeName: 'REPLACE_ME_STORE_NAME',
+    storeName: 'Chronique Watch Co.',
     tagline: 'Original and honestly-labelled replica watches.',
     whatsappNumber: 'REPLACE_ME_WHATSAPP',
     currencyLabel: 'Rs.',
@@ -60,7 +60,7 @@ function sampleSettings(): SiteSettings {
     deliveryNote: 'REPLACE_ME: delivery note (owner to provide).',
     replicaDisclosure: 'Replica watch — not made or endorsed by the brand.',
     footerReplicaNote: 'Replica watches are not made or endorsed by the brands they resemble.',
-    seoTitle: 'REPLACE_ME Watch Store — Original & Replica Watches',
+    seoTitle: 'Chronique Watch Co. — Original & Replica Watches',
     seoDescription: 'Browse original and clearly-labelled replica watches. Order on WhatsApp.',
     ogImage: { assetId: '', local: '/placeholders/og-default.svg', alt: '', width: 1200, height: 630 },
   };

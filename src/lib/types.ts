@@ -7,9 +7,9 @@ export type Condition = 'new' | 'pre-owned';
 
 /** Normalized image reference used by the UI layer. */
 export interface ProductImage {
-  /** Sanity asset _id when available; empty for local placeholders. */
+  /** Sanity asset _id when available; empty for local images. */
   assetId: string;
-  /** Local path (dev/sample data) — used when assetId is empty. */
+  /** Local path (dev/sample data or repo-hosted photos in /public/img) — used when assetId is empty. */
   local?: string;
   alt: string;
   width: number;

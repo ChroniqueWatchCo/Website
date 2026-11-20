@@ -2,17 +2,31 @@
 /**
  * Header (Section 8.3). Mobile menu: CSS-only <details> pattern, zero JS.
  * WhatsApp quick-contact link uses the number from Site Settings only.
+ * Logo: uses /logo.svg from the repo root's public/ folder when present
+ * (added by the owner); otherwise falls back to a text wordmark.
  */
 import type { SiteSettings } from '../lib/types';
 import { buildGenericWhatsAppLink } from '../lib/whatsapp';
+import { existsSync } from 'node:fs';
 
 interface Props { settings: SiteSettings; }
 const { settings } = Astro.props;
 const waLink = buildGenericWhatsAppLink(settings.whatsappNumber, settings.storeName);
+
+// The logo file is optional: place your logo at public/logo.svg (or change the
+// path below) and it will appear in the header + footer automatically.
+const LOGO_SRC = '/logo.svg';
+const hasLogoFile = existsSync(new URL(`../../public${LOGO_SRC}`, import.meta.url));
 ---
 <header class="site-header">
   <div class="container header__row">
-    <a href="/" class="logo" data-astro-prefetch="tap">{settings.storeName}</a>
+    <a href="/" class="logo" data-astro-prefetch="tap" aria-label={`${settings.storeName} — home`}>
+      {hasLogoFile ? (
+        <img src={LOGO_SRC} alt={settings.storeName} width="120" height="40" class="logo__img" loading="eager" decoding="async" />
+      ) : (
+        <span>{settings.storeName}</span>
+      )}
+    </a>
 
     <nav class="nav-desktop" aria-label="Main">
       <a href="/original/" data-astro-prefetch="tap">Original</a>
@@ -64,6 +78,15 @@ const waLink = buildGenericWhatsAppLink(settings.whatsappNumber, settings.storeN
     text-decoration: none;
     overflow-wrap: anywhere;
     max-width: 45%;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .logo__img {
+    height: 40px;
+    width: auto;
+    max-width: 180px;
+    display: block;
   }
   .nav-desktop { display: none; gap: var(--s-5); }
   .nav-desktop a {

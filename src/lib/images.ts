@@ -51,7 +51,7 @@ function sanityUrl(base: string, w: number, h: number, img: ProductImage): strin
 /** Build a square 1:1 image at the given display width. */
 export function productImage(img: ProductImage, widths: number[], sizes: string): ImgAttrs {
   if (!img.assetId && img.local) {
-    // Local placeholder: single src, intrinsic 800x800.
+    // Local image (placeholder or repo-hosted photo in /public/img): single src.
     return { src: img.local, width: img.width || 800, height: img.height || 800, alt: img.alt };
   }
   const base = sanityBase(img.assetId);
