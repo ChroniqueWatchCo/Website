@@ -233,9 +233,10 @@ export async function getRelated(product: Product, max = 4): Promise<Product[]> 
   return related.slice(0, max);
 }
 
-export function absoluteUrl(site: string | undefined, path: string): string {
-  const base = site && /^https?:\/\//.test(site) ? site : 'https://REPLACE_ME.netlify.app';
-  return new URL(path.startsWith('/') ? path : `/${path}`, base.endsWith('/') ? base : base + '/').toString();
+export function absoluteUrl(site: string | URL | undefined, path: string): string {
+  const base = (site ? String(site) : '').trim();
+  const validBase = /^https?:\/\//.test(base) ? base : 'https://REPLACE_ME.netlify.app';
+  return new URL(path.startsWith('/') ? path : `/${path}`, validBase.endsWith('/') ? validBase : validBase + '/').toString();
 }
 
 export { PLACEHOLDER };
