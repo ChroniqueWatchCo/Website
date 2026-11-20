@@ -1,0 +1,34 @@
+---
+/** Product grid with friendly empty state (Section 8.5). */
+import type { Product } from '../lib/types';
+import ProductCard from './ProductCard.astro';
+
+interface Props {
+  products: Product[];
+  currencyLabel?: string;
+  emptyText?: string;
+  /** number of cards rendered eagerly (first row on mobile = 2) */
+  eagerCount?: number;
+}
+const { products, currencyLabel = 'Rs.', emptyText = 'No watches here yet — please check back soon.', eagerCount = 0 } = Astro.props;
+---
+{products.length === 0 ? (
+  <p class="empty muted">{emptyText}</p>
+) : (
+  <ul class="grid-products" id="product-grid">
+    {products.map((p, i) => (
+      <ProductCard product={p} currencyLabel={currencyLabel} eager={i < eagerCount} />
+    ))}
+  </ul>
+)}
+
+<style>
+  .grid-products { padding: 0; margin: 0; list-style: none; }
+  .empty {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-card);
+    padding: var(--s-6);
+    text-align: center;
+    background: var(--surface);
+  }
+</style>

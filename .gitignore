@@ -1,0 +1,23 @@
+# build output & cache
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# environment / secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Sanity studio
+studio/node_modules/
+studio/dist/
+studio/.env
+studio/.env.*
+!studio/.env.example
+
+# misc
+.DS_Store
+*.log
+npm-debug.log*

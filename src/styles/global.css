@@ -1,0 +1,170 @@
+/* ============================================================
+   WATCH STORE — global.css
+   Design tokens, reset, base typography and utilities.
+   Dark theme: black + gold + silver (Section 7 of the spec).
+   Keep this file small; component styles live in components.
+   ============================================================ */
+
+/* ---------- 7.1 Colour tokens (define once, use only these) ---------- */
+:root {
+  --bg:          #0b0b0d;   /* page background (near-black, not pure #000) */
+  --surface:     #141418;   /* cards, header, footer */
+  --surface-2:   #1b1b21;   /* raised/hover surface */
+  --border:      #2a2a30;   /* thin dividers and card outlines */
+  --text:        #e8e9ec;   /* primary text */
+  --silver:      #c9ccd1;   /* body/secondary text, replica badge */
+  --silver-muted:#9a9ea6;   /* captions, meta */
+  --gold:        #c9a24b;   /* accent: prices, key buttons, original badge */
+  --gold-hover:  #e0bf6a;
+  --on-gold:     #0b0b0d;   /* text on gold */
+  --success:     #3fae6a;   /* in stock indicator only */
+  --danger:      #d9534f;   /* sold out indicator only */
+  color-scheme: dark;
+
+  /* spacing scale (7.4) */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+
+  --radius-card: 12px;
+  --radius-btn: 8px;
+  --maxw: 1200px;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem);
+  line-height: 1.55;
+  min-height: 100svh;
+  overflow-x: hidden; /* no horizontal scroll at any width >= 320px */
+}
+img, picture, svg, video { display: block; max-width: 100%; height: auto; }
+h1, h2, h3, h4 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  line-height: 1.25;
+  margin: 0 0 var(--s-3);
+  overflow-wrap: break-word;
+}
+h1 { font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem); }
+h2 { font-size: clamp(1.25rem, 1.1rem + 0.8vw, 1.75rem); }
+h3 { font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem); }
+p { margin: 0 0 var(--s-3); overflow-wrap: break-word; }
+ul, ol { margin: 0 0 var(--s-3); padding-inline-start: 1.4em; }
+li { margin-block: var(--s-1); }
+a { color: var(--gold); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--gold-hover); }
+button { font: inherit; }
+table { border-collapse: collapse; width: 100%; }
+
+/* ---------- Focus visibility (gold outline, Section 17) ---------- */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ---------- Utilities ---------- */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--s-4); /* 16px mobile */
+}
+@media (min-width: 768px) {
+  .container { padding-inline: var(--s-5); } /* 24px desktop */
+}
+
+.section { padding-block: var(--s-6); }
+
+/* Skip rendering work for below-the-fold sections (13.3) */
+.below-fold {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
+}
+
+.eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--silver-muted);
+  margin: 0 0 var(--s-2);
+}
+
+.muted { color: var(--silver-muted); }
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 44px;           /* tap target >= 44px */
+  min-width: 44px;
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--border);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation; /* remove tap delay */
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.btn-gold {
+  background: var(--gold);
+  color: var(--on-gold);
+  border-color: var(--gold);
+}
+.btn-gold:hover { background: var(--gold-hover); border-color: var(--gold-hover); color: var(--on-gold); }
+.btn-outline {
+  background: transparent;
+  color: var(--silver);
+  border-color: var(--silver);
+}
+.btn-outline:hover { color: var(--text); border-color: var(--text); }
+.btn[disabled], .btn-disabled {
+  background: var(--surface-2);
+  color: var(--silver-muted);
+  border-color: var(--border);
+  cursor: not-allowed;
+}
+
+/* ---------- Grids ---------- */
+.grid-products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-3);            /* 12px mobile */
+}
+@media (min-width: 768px) {
+  .grid-products { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1024px) {
+  .grid-products { grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
+}
+
+/* Long grids: skip offscreen rendering work */
+.grid-products > * {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 320px;
+}
+
+/* Horizontal scroll wrapper for wide content (tables etc.) */
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }

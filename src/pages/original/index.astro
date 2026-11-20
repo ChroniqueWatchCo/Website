@@ -1,0 +1,110 @@
+---
+/** /original/ — collection page (Section 8.5). */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
+import BrandTiles from '../../components/BrandTiles.astro';
+import { getBrandsByType, getPolicies, getProductsByType, getSettings } from '../../lib/data';
+
+const settings = await getSettings();
+const policies = await getPolicies();
+const products = await getProductsByType('original');
+const brands = await getBrandsByType('original');
+---
+<BaseLayout
+  settings={settings}
+  policies={policies}
+  title={`Original Watches (${products.length}) — ${settings.storeName}`}
+  description={`Original watches from ${settings.storeName}. Browse, then order on WhatsApp. Each listing shows clear photos of the exact watch.`}
+  path="/original/"
+>
+  <div class="container">
+    <Breadcrumbs current="Original" />
+    <header class="collection-head">
+      <p class="eyebrow">Collection</p>
+      <h1>Original watches</h1>
+      <p class="muted">Every watch on this page is labelled Original. Prices in PKR; ordering is by WhatsApp.</p>
+    </header>
+
+    {brands.length > 0 && (
+      <section class="section-tight" aria-labelledby="ob-h">
+        <h2 id="ob-h" class="sr-only">Browse original watches by brand</h2>
+        <BrandTiles brands={brands} type="original" />
+      </section>
+    )}
+
+    <section aria-label="Original watches list">
+      <p class="count muted" data-count>{products.length} {products.length === 1 ? 'watch' : 'watches'}</p>
+      <div data-filters>
+        <div class="filters scroll-x" role="group" aria-label="Filter watches">
+          <span class="filters__label">Filter:</span>
+          <button type="button" class="chip" data-filter="movement" data-value="automatic">Automatic</button>
+          <button type="button" class="chip" data-filter="movement" data-value="quartz">Quartz</button>
+          <button type="button" class="chip" data-filter="chronograph" data-value="true">Chronograph</button>
+          <button type="button" class="chip" data-filter="gender" data-value="men">Men</button>
+          <button type="button" class="chip" data-filter="gender" data-value="women">Women</button>
+          <button type="button" class="chip" data-filter="gender" data-value="unisex">Unisex</button>
+          <button type="button" class="chip" data-filter="condition" data-value="pre-owned">Pre-owned</button>
+          <button type="button" class="chip" data-filter="stock" data-value="in">In stock</button>
+        </div>
+        <div class="sort-row">
+          <label for="sort" class="muted sort-label">Sort</label>
+          <select id="sort" data-sort>
+            <option value="newest">Newest</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+          </select>
+          <button type="button" class="chip chip--clear" data-clear hidden>Clear filters</button>
+        </div>
+      </div>
+
+      <ProductGrid products={products} currencyLabel={settings.currencyLabel} eagerCount={2} />
+      <p class="empty filtered-empty muted" hidden>No watches match those filters — try clearing them.</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .collection-head { padding-block: var(--s-5) var(--s-4); }
+  .collection-head h1 { margin-bottom: var(--s-2); }
+  .section-tight { padding-block: 0 var(--s-5); }
+  .count { margin: 0 0 var(--s-3); font-size: 0.9rem; }
+  .filters { display: flex; gap: var(--s-2); padding-bottom: var(--s-3); flex-wrap: nowrap; }
+  @media (min-width: 768px) { .filters { flex-wrap: wrap; } }
+  .filters__label { color: var(--silver-muted); font-size: 0.85rem; align-self: center; white-space: nowrap; }
+  .chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--silver);
+    border-radius: 999px;
+    min-height: 44px;
+    padding: var(--s-2) var(--s-4);
+    font-size: 0.9rem;
+    cursor: pointer;
+    touch-action: manipulation;
+    white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--gold); color: var(--text); }
+  .chip[aria-pressed="true"] { background: var(--gold); border-color: var(--gold); color: var(--on-gold); font-weight: 600; }
+  .chip--clear { border-style: dashed; }
+  .sort-row { display: flex; align-items: center; gap: var(--s-2); margin-bottom: var(--s-4); }
+  .sort-label { font-size: 0.85rem; }
+  select {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-btn);
+    min-height: 44px;
+    font-size: 1rem;
+    padding: 0 var(--s-3);
+  }
+  .filtered-empty {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-card);
+    padding: var(--s-6);
+    text-align: center;
+    background: var(--surface);
+  }
+</style>
+
+<script src="../scripts/filters.ts"></script>

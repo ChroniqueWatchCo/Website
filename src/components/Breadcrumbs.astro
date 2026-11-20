@@ -1,0 +1,41 @@
+---
+/** Breadcrumbs: Home › Original/Replica › Brand › Product (Section 9.1). */
+import type { Product } from '../lib/types';
+interface Props { product?: Product; brandName?: string; current?: string; }
+const { product, current } = Astro.props;
+const crumbs: { label: string; href: string }[] = [{ label: 'Home', href: '/' }];
+if (product) {
+  crumbs.push({ label: product.type === 'original' ? 'Original' : 'Replica', href: `/${product.type}/` });
+  if (product.brand?.slug) {
+    crumbs.push({ label: product.brand.name, href: `/${product.type}/${product.brand.slug}/` });
+  }
+}
+if (current && (!product || current !== product.name)) crumbs.push({ label: current ?? product!.name, href: '' });
+---
+<nav aria-label="Breadcrumb" class="crumbs">
+  <ol>
+    {crumbs.map((c, i) => (
+      <li>
+        {i < crumbs.length - 1 && c.href
+          ? <a href={c.href} data-astro-prefetch="tap">{c.label}</a>
+          : <span aria-current="page">{c.label}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--silver-muted);
+  }
+  .crumbs li + li::before { content: "›"; margin-inline: var(--s-1); color: var(--border); }
+  .crumbs a { color: var(--silver-muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--gold); }
+</style>

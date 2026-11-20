@@ -1,0 +1,123 @@
+---
+/** Footer (Section 8.11): policy links grouped General / Original / Replica, contact, socials. */
+import type { PolicyPage, SiteSettings } from '../lib/types';
+import { buildGenericWhatsAppLink } from '../lib/whatsapp';
+import { existsSync } from 'node:fs';
+
+interface Props { settings: SiteSettings; policies: PolicyPage[]; }
+const { settings, policies } = Astro.props;
+const waLink = buildGenericWhatsAppLink(settings.whatsappNumber, settings.storeName);
+
+// Same optional logo as the header (public/logo.svg).
+const LOGO_SRC = '/logo.svg';
+const hasLogoFile = existsSync(new URL(`../../public${LOGO_SRC}`, import.meta.url));
+
+const group = (cat: PolicyPage['category']) =>
+  policies.filter((p) => p.category === cat).sort((a, b) => (a.sortOrder ?? 99) - (b.sortOrder ?? 99));
+
+const socials = [
+  { label: 'Instagram', url: settings.instagramUrl },
+  { label: 'Facebook', url: settings.facebookUrl },
+  { label: 'TikTok', url: settings.tiktokUrl },
+  { label: 'YouTube', url: settings.youtubeUrl },
+].filter((s) => s.url && s.url.trim() !== '');
+---
+<footer class="site-footer">
+  <div class="container footer__grid">
+    <div>
+      {hasLogoFile ? (
+        <img src={LOGO_SRC} alt={settings.storeName} width="140" height="46" class="footer__logo-img" loading="lazy" decoding="async" />
+      ) : (
+        <p class="footer__logo">{settings.storeName}</p>
+      )}
+      {settings.tagline && <p class="muted footer__tagline">{settings.tagline}</p>}
+      <p><a href={waLink} rel="noopener noreferrer">Chat on WhatsApp</a></p>
+      <ul class="footer__contact">
+        {settings.contactPhone && <li>{settings.contactPhone}</li>}
+        {settings.contactEmail && <li><a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a></li>}
+        {settings.address && <li>{settings.address}</li>}
+        {settings.openingHours && <li>{settings.openingHours}</li>}
+      </ul>
+    </div>
+
+    <nav aria-label="General information">
+      <h2 class="footer__h">Information</h2>
+      <ul>
+        {group('general').map((p) => <li><a href={`/policies/${p.slug}/`} data-astro-prefetch="tap">{p.title}</a></li>)}
+        <li><a href="/contact/" data-astro-prefetch="tap">Contact</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-label="Original watch policies">
+      <h2 class="footer__h">Original watches</h2>
+      <ul>
+        {group('original').map((p) => <li><a href={`/policies/${p.slug}/`} data-astro-prefetch="tap">{p.title}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav aria-label="Replica watch policies">
+      <h2 class="footer__h">Replica watches</h2>
+      <ul>
+        {group('replica').map((p) => <li><a href={`/policies/${p.slug}/`} data-astro-prefetch="tap">{p.title}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container footer__bottom">
+    {socials.length > 0 && (
+      <ul class="socials">
+        {socials.map((s) => (
+          <li><a href={s.url!} rel="noopener noreferrer" target="_blank">{s.label}</a></li>
+        ))}
+      </ul>
+    )}
+    <p class="muted replica-note">{settings.footerReplicaNote}</p>
+    <p class="muted">© {new Date().getFullYear()} {settings.storeName}. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    margin-top: var(--s-8);
+  }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--s-6);
+    padding-block: var(--s-7);
+  }
+  @media (min-width: 768px) {
+    .footer__grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+  }
+  .footer__logo {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--gold);
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+  }
+  .footer__logo-img { height: 46px; width: auto; max-width: 200px; display: block; margin-bottom: var(--s-2); }
+  .footer__tagline { font-size: 0.9rem; max-width: 34ch; }
+  .footer__h {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--silver-muted);
+    font-family: inherit;
+    margin-bottom: var(--s-3);
+  }
+  .site-footer ul { list-style: none; padding: 0; margin: 0; }
+  .site-footer li { margin-block: var(--s-2); }
+  .site-footer a { color: var(--silver); text-decoration: none; font-size: 0.92rem; }
+  .site-footer a:hover { color: var(--gold); text-decoration: underline; }
+  .footer__contact { color: var(--silver-muted); font-size: 0.9rem; }
+  .footer__bottom {
+    border-top: 1px solid var(--border);
+    padding-block: var(--s-5);
+    font-size: 0.85rem;
+  }
+  .socials { display: flex; gap: var(--s-4); margin-bottom: var(--s-3); flex-wrap: wrap; }
+  .socials li { margin: 0; }
+  .replica-note { margin-bottom: var(--s-2); }
+</style>

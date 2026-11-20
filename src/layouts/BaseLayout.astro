@@ -1,0 +1,74 @@
+---
+/** Global layout (Section 8.1). */
+import '../styles/global.css';
+import type { PolicyPage, SiteSettings } from '../lib/types';
+import Seo from '../components/Seo.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AnnouncementBar from '../components/AnnouncementBar.astro';
+import { absoluteUrl } from '../lib/data';
+
+interface Props {
+  settings: SiteSettings;
+  policies: PolicyPage[];
+  title: string;
+  description: string;
+  ogImage?: string | null;
+  ogType?: 'website' | 'product';
+  jsonLd?: object | object[];
+  /** path used for the canonical URL, e.g. /original/ */
+  path?: string;
+  /** adds bottom padding so the sticky order bar never hides content */
+  hasStickyBar?: boolean;
+}
+const {
+  settings, policies, title, description, ogImage = null, ogType = 'website',
+  jsonLd, path = Astro.url.pathname, hasStickyBar = false,
+} = Astro.props;
+
+const canonical = absoluteUrl(Astro.site, path);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0b0d" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://cdn.sanity.io" />
+    <Seo
+      title={title}
+      description={description}
+      canonical={canonical}
+      ogImage={ogImage}
+      ogType={ogType}
+      jsonLd={jsonLd}
+      storeName={settings.storeName}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <AnnouncementBar text={settings.announcement} />
+    <Header settings={settings} />
+    <main id="main" class:list={{ 'has-sticky-bar': hasStickyBar }}>
+      <slot />
+    </main>
+    <Footer settings={settings} policies={policies} />
+  </body>
+</html>
+
+<style is:global>
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--gold);
+    color: var(--on-gold);
+    padding: var(--s-2) var(--s-4);
+    border-radius: 0 0 8px 0;
+    z-index: 100;
+    font-weight: 600;
+  }
+  .skip-link:focus { left: 0; }
+  main.has-sticky-bar { padding-bottom: 88px; } /* room for sticky order bar (9.2) */
+</style>
